@@ -1,7 +1,8 @@
 ﻿<Project ToolsVersion="15.0">
   <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), 'README.md'))\build\common\common.props" />
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
-
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\OctoPack.3.6.5\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.5\build\OctoPack.targets')" />
   <PropertyGroup>
     <TargetFrameworks>net5.0</TargetFrameworks>
   </PropertyGroup>
@@ -71,5 +72,15 @@
     <!-- Pack NupkgWrench Exe -->
     <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Pack" Condition=" '$(MergedExePathExists)' == 'true' " Properties="Configuration=$(Configuration);PackageOutputPath=$(NupkgOutputDirectory);NoPackageAnalysis=true;IncludeSymbols=false;NuspecFile=NupkgWrenchExe.nuspec;NuspecProperties=$(NuspecProperties);PackageId=NupkgWrenchExe" />
   </Target>
+   <Target Name="SetRunOctoPack">
+    <PropertyGroup>
+      <RunOctoPack>true</RunOctoPack>
+    </PropertyGroup>
+</Target>
+
+<Target Name="AfterPublish" DependsOnTargets="SetRunOctoPack">
+  <CallTarget Targets="OctoPack"/>
+</Target>
+
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>
