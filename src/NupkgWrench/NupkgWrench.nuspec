@@ -16,7 +16,8 @@
     <iconUrl>https://emgartenstatic.blob.core.windows.net/nupkgs/icons/nupkgwrench.png</iconUrl>
   </metadata>
   <files>
-    <file src="..\..\artifacts\publish\*.exe" target="tools\" />
-    <file src="..\..\build\nupkgIncludes\NupkgWrench.props" target="build\NupkgWrenchExe.props" />
+
+    <file src="bin\Release\net5.0\**\*.*" />
+</files>
   </files>
 </package>
